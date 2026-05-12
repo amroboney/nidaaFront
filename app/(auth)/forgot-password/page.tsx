@@ -27,8 +27,8 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl">
-      <div className="mb-8">
-        <AppLogo height={36} />
+      <div className="mb-8 flex justify-center">
+        <AppLogo height={80} />
       </div>
 
       {sent ? (
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
             We sent a password reset link to <span className="text-foreground font-medium">{email}</span>.
             Check your inbox (and spam folder).
           </p>
-          <Link href="/login" className="inline-flex items-center gap-1.5 text-sm text-violet-400 hover:text-violet-300 font-medium transition mt-2">
+          <Link href="/login" className="inline-flex items-center gap-1.5 text-sm text-brand-400 hover:text-brand-300 font-medium transition mt-2">
             <ArrowLeft className="w-4 h-4" /> Back to sign in
           </Link>
         </div>
@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2"
+              className="w-full bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
               {loading ? 'Sending…' : 'Send reset link'}
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            <Link href="/login" className="inline-flex items-center gap-1.5 text-violet-400 hover:text-violet-300 font-medium transition">
+            <Link href="/login" className="inline-flex items-center gap-1.5 text-brand-400 hover:text-brand-300 font-medium transition">
               <ArrowLeft className="w-4 h-4" /> Back to sign in
             </Link>
           </p>

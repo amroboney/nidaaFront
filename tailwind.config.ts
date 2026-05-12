@@ -12,6 +12,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          300: 'hsl(152 70% 55%)',
+          400: 'hsl(152 85% 38%)',
+          600: '#017840',
+          700: 'hsl(152 98% 18%)',
+        },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

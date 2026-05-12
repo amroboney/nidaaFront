@@ -30,8 +30,8 @@ export default function LoginPage() {
 
   return (
     <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl">
-      <div className="mb-8">
-        <AppLogo height={36} />
+      <div className="mb-8 flex justify-center">
+        <AppLogo height={80} />
       </div>
 
       <h1 className="text-2xl font-bold text-foreground mb-1">Welcome back</h1>
@@ -70,7 +70,7 @@ export default function LoginPage() {
         </div>
 
         <div className="flex justify-end">
-          <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-violet-400 transition">
+          <Link href="/forgot-password" className="text-xs text-muted-foreground hover:text-brand-400 transition">
             Forgot password?
           </Link>
         </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2"
+          className="w-full bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg py-2.5 text-sm transition flex items-center justify-center gap-2"
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}
           {loading ? 'Signing in…' : 'Sign in'}
@@ -87,7 +87,7 @@ export default function LoginPage() {
 
       <p className="text-center text-sm text-muted-foreground mt-6">
         Don&apos;t have an account?{' '}
-        <Link href="/register" className="text-violet-400 hover:text-violet-300 font-medium transition">
+        <Link href="/register" className="text-brand-400 hover:text-brand-300 font-medium transition">
           Create one
         </Link>
       </p>

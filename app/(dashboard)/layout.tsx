@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
       <div className="flex items-center justify-center h-screen bg-background">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-violet-600" />
+          <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
           <p className="text-sm text-muted-foreground">Loading workspace…</p>
         </div>
       </div>

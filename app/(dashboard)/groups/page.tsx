@@ -20,7 +20,7 @@ export default function GroupsPage() {
   const [userEmail, setUserEmail] = useState('')
 
   useEffect(() => {
-    groupsApi.list().then(({ data }) => setGroups(data.data)).catch(() => toast.error('Failed to load groups')).finally(() => setLoading(false))
+    groupsApi.list().then(({ data }) => setGroups(data.data ?? [])).catch(() => toast.error('Failed to load groups')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
@@ -64,7 +64,7 @@ export default function GroupsPage() {
 
         {loading && (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-6 h-6 animate-spin text-violet-600" />
+            <Loader2 className="w-6 h-6 animate-spin text-brand-600" />
           </div>
         )}
 
@@ -83,8 +83,8 @@ export default function GroupsPage() {
           {groups.map((group) => (
             <div key={group.id} className="bg-card border border-border rounded-xl p-4 space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-600/20 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-violet-400" />
+                <div className="w-10 h-10 rounded-lg bg-brand-600/10 border border-brand-600/20 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-brand-400" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">{group.name}</h3>
@@ -99,7 +99,7 @@ export default function GroupsPage() {
                   {group.users.slice(0, 5).map((user) => (
                     <div
                       key={user.id}
-                      className="w-7 h-7 rounded-full bg-violet-600/20 border-2 border-card flex items-center justify-center text-xs font-bold text-violet-400"
+                      className="w-7 h-7 rounded-full bg-brand-600/20 border-2 border-card flex items-center justify-center text-xs font-bold text-brand-400"
                       title={user.name}
                     >
                       {user.name.charAt(0).toUpperCase()}

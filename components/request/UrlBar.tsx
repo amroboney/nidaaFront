@@ -56,7 +56,7 @@ export function UrlBar({ tab, onMethodChange, onUrlChange, onSend, onSave }: Pro
         size="sm"
         onClick={onSend}
         disabled={tab._sending || !tab.url}
-        className="bg-violet-600 hover:bg-violet-700 text-white font-semibold px-5 gap-2"
+        className="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 gap-2"
       >
         {tab._sending
           ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending</>

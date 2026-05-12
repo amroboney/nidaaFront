@@ -37,7 +37,7 @@ const defaults: SettingsData = {
   defaultContentType: 'application/json',
   tabSize: 2,
   wordWrap: false,
-  fontSize: 13,
+  fontSize: 16,
   monitorAlerts: true,
   requestLayout: 'vertical',
   logoUrl: null,
@@ -73,7 +73,7 @@ function saveToStorage(state: SettingsState) {
       logoUrl: state.logoUrl,
     }
     localStorage.setItem(storageKey(), JSON.stringify(data))
-  } catch {}
+  } catch { }
 }
 
 export const useSettingsStore = create<SettingsState>()((set) => ({

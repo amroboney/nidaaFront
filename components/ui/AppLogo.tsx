@@ -6,11 +6,11 @@ interface Props {
   className?: string
 }
 
-export function AppLogo({ height = 36, className = '' }: Props) {
+export function AppLogo({ height = 100, className = '' }: Props) {
   return (
     <span className={`inline-flex ${className}`}>
       <Image
-        src="/images/nidaa-logo.png"
+        src="/images/logo.png"
         alt="Nidaa"
         width={Math.round(height * 2.8)}
         height={height}
@@ -19,7 +19,7 @@ export function AppLogo({ height = 36, className = '' }: Props) {
         priority
       />
       <Image
-        src="/images/nidaa-logo-white.png"
+        src="/images/logo.png"
         alt="Nidaa"
         width={Math.round(height * 2.8)}
         height={height}

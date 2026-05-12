@@ -54,7 +54,7 @@ export function RequestBuilder({ tab }: Props) {
             className={cn(
               'p-1 rounded transition-colors',
               requestLayout === 'vertical'
-                ? 'text-violet-400 bg-violet-600/10'
+                ? 'text-brand-400 bg-brand-600/10'
                 : 'text-muted-foreground hover:text-foreground hover:bg-accent'
             )}
           >
@@ -66,7 +66,7 @@ export function RequestBuilder({ tab }: Props) {
             className={cn(
               'p-1 rounded transition-colors',
               requestLayout === 'horizontal'
-                ? 'text-violet-400 bg-violet-600/10'
+                ? 'text-brand-400 bg-brand-600/10'
                 : 'text-muted-foreground hover:text-foreground hover:bg-accent'
             )}
           >
@@ -99,7 +99,7 @@ export function RequestBuilder({ tab }: Props) {
                     className={cn(
                       'px-3 py-2 text-xs font-medium whitespace-nowrap transition-colors border-b-2',
                       activeReqTab === t
-                        ? 'text-foreground border-violet-600'
+                        ? 'text-foreground border-brand-600'
                         : 'text-muted-foreground border-transparent hover:text-foreground'
                     )}
                   >
@@ -130,7 +130,7 @@ export function RequestBuilder({ tab }: Props) {
                           className={cn(
                             'px-2.5 py-0.5 rounded text-xs font-medium transition-colors',
                             tab.body_type === bt
-                              ? 'bg-violet-600 text-white'
+                              ? 'bg-brand-600 text-white'
                               : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                           )}
                         >
@@ -171,7 +171,7 @@ export function RequestBuilder({ tab }: Props) {
           </Panel>
 
           <PanelResizeHandle className={cn(
-            'bg-border hover:bg-violet-600/50 transition-colors',
+            'bg-border hover:bg-brand-600/50 transition-colors',
             requestLayout === 'vertical' ? 'h-px cursor-row-resize' : 'w-px cursor-col-resize'
           )} />
 

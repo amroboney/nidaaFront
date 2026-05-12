@@ -1,6 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 import { ThemeProvider } from 'next-themes'
+import { Toaster } from 'sonner'
 import { useSettingsStore, rehydrateSettings } from '@/stores/settingsStore'
 
 function FontSizeSync() {
@@ -22,6 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <FontSizeSync />
       {children}
+      <Toaster richColors position="top-right" />
     </ThemeProvider>
   )
 }

@@ -37,7 +37,7 @@ export function KVEditor({ pairs, onChange, keyPlaceholder = 'Key', valuePlaceho
             type="checkbox"
             checked={pair.enabled !== false}
             onChange={(e) => update(i, { enabled: e.target.checked })}
-            className="w-3.5 h-3.5 rounded border-border accent-violet-600 cursor-pointer"
+            className="w-3.5 h-3.5 rounded border-border accent-brand-600 cursor-pointer"
           />
           <input
             value={pair.key}

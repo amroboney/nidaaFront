@@ -18,7 +18,7 @@ export function TabBar() {
           className={cn(
             'group flex items-center gap-2 px-3 py-2 text-xs cursor-pointer border-r border-border shrink-0 max-w-[180px] transition-colors',
             tab.id === activeTabId
-              ? 'bg-card text-foreground border-t-2 border-t-violet-600'
+              ? 'bg-card text-foreground border-t-2 border-t-brand-600'
               : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
           )}
         >
@@ -29,7 +29,7 @@ export function TabBar() {
             {tab.name || tab.url || 'New Request'}
           </span>
           {tab._dirty && (
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 shrink-0" />
           )}
           <button
             onClick={(e) => { e.stopPropagation(); closeTab(tab.id) }}

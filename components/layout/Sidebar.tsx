@@ -32,7 +32,7 @@ export function Sidebar() {
               className={cn(
                 'flex-1 flex flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors',
                 sidebarTab === t.id
-                  ? 'text-violet-400 border-b-2 border-violet-600'
+                  ? 'text-brand-400 border-b-2 border-brand-600'
                   : 'text-muted-foreground hover:text-foreground border-b-2 border-transparent'
               )}
             >

@@ -26,7 +26,7 @@ export default function MocksPage() {
   const [form, setForm] = useState({ name: '', base_path: '' })
 
   useEffect(() => {
-    mockServersApi.list().then(({ data }) => setServers(data.data)).catch(() => toast.error('Failed to load mock servers')).finally(() => setLoading(false))
+    mockServersApi.list().then(({ data }) => setServers(data.data ?? [])).catch(() => toast.error('Failed to load mock servers')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
@@ -77,7 +77,7 @@ export default function MocksPage() {
 
         {loading && (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-6 h-6 animate-spin text-violet-600" />
+            <Loader2 className="w-6 h-6 animate-spin text-brand-600" />
           </div>
         )}
 

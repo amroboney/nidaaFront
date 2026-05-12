@@ -26,7 +26,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       onClick={() => onChange(!checked)}
       className={cn(
         'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors',
-        checked ? 'bg-violet-600' : 'bg-muted'
+        checked ? 'bg-brand-600' : 'bg-muted'
       )}
     >
       <span className={cn(
@@ -86,7 +86,7 @@ function AppearanceSection() {
               className={cn(
                 'px-3 py-1 rounded-md text-xs font-medium border transition-colors capitalize',
                 theme === t
-                  ? 'bg-violet-600 text-white border-violet-600'
+                  ? 'bg-brand-600 text-white border-brand-600'
                   : 'border-border text-muted-foreground hover:text-foreground'
               )}
             >
@@ -274,7 +274,7 @@ export default function SettingsPage() {
                         className={cn(
                           'px-3 py-1 rounded-md text-xs font-medium border transition-colors',
                           settings.tabSize === n
-                            ? 'bg-violet-600 text-white border-violet-600'
+                            ? 'bg-brand-600 text-white border-brand-600'
                             : 'border-border text-muted-foreground hover:text-foreground'
                         )}
                       >

@@ -4,15 +4,17 @@ import { useAppStore } from '@/stores/appStore'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TabBar } from '@/components/layout/TabBar'
 import { RequestBuilder } from '@/components/request/RequestBuilder'
-import { Zap, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+// import logo from "@/assets/images/logo.png"
 
 function WelcomeScreen() {
   const { openNewTab } = useAppStore()
   return (
     <div className="flex flex-col items-center justify-center h-full text-center gap-6">
-      <div className="w-20 h-20 rounded-2xl bg-violet-600/10 border border-violet-600/20 flex items-center justify-center">
-        <Zap className="w-10 h-10 text-violet-400" />
+      <div className="w-28 h-28 rounded-2xl bg-brand-600/10 border border-brand-600/20 flex items-center justify-center">
+        <Image src="/images/logo.png" alt="Nidaa" width={100} height={100} className="w-[100px] h-[100px] object-contain" />
       </div>
       <div>
         <h2 className="text-xl font-bold text-foreground">Welcome to Nidaa</h2>
@@ -54,7 +56,7 @@ export default function WorkspacePage() {
           <Sidebar />
         </Panel>
 
-        <PanelResizeHandle className="w-px bg-border hover:bg-violet-600/50 transition-colors cursor-col-resize" />
+        <PanelResizeHandle className="w-px bg-border hover:bg-brand-600/50 transition-colors cursor-col-resize" />
 
         {/* Main content */}
         <Panel defaultSize={82} minSize={50}>

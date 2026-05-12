@@ -30,7 +30,7 @@ function DropLine({ visible }: { visible: boolean }) {
   return (
     <div className={cn(
       'h-0.5 rounded-full mx-1 transition-all duration-100',
-      visible ? 'bg-violet-600 opacity-100' : 'opacity-0'
+      visible ? 'bg-brand-600 opacity-100' : 'opacity-0'
     )} />
   )
 }

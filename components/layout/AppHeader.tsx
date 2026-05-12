@@ -54,8 +54,8 @@ export function AppHeader() {
             <Image src={logoUrl} alt="Logo" width={28} height={28} className="w-7 h-7 rounded-md object-contain" />
           ) : (
             <>
-              <Image src="/images/nidaa-logo.png" alt="Nidaa" width={90} height={28} className="h-7 w-auto object-contain block dark:hidden" priority />
-              <Image src="/images/nidaa-logo-white.png" alt="Nidaa" width={90} height={28} className="h-7 w-auto object-contain hidden dark:block" priority />
+              <Image src="/images/logo.png" alt="Nidaa" width={90} height={28} className="h-12 w-auto object-contain block dark:hidden" priority />
+              <Image src="/images/logo.png" alt="Nidaa" width={90} height={28} className="h-12 w-auto object-contain hidden dark:block" priority />
             </>
           )}
         </div>
@@ -156,7 +156,7 @@ export function AppHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <div className="w-7 h-7 rounded-full bg-violet-600/20 border border-violet-600/30 flex items-center justify-center text-violet-400 text-xs font-bold">
+              <div className="w-7 h-7 rounded-full bg-brand-600/20 border border-brand-600/30 flex items-center justify-center text-brand-400 text-xs font-bold">
                 {user?.name?.charAt(0).toUpperCase() ?? 'U'}
               </div>
             </Button>

@@ -38,7 +38,7 @@ export default function MonitorsPage() {
   const [form, setForm] = useState({ name: '', collection_id: '', schedule: SCHEDULES[2].value })
 
   useEffect(() => {
-    monitorsApi.list().then(({ data }) => setMonitors(data.data)).catch(() => toast.error('Failed to load monitors')).finally(() => setLoading(false))
+    monitorsApi.list().then(({ data }) => setMonitors(data.data ?? [])).catch(() => toast.error('Failed to load monitors')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
@@ -101,7 +101,7 @@ export default function MonitorsPage() {
         {/* Loading */}
         {loading && (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-6 h-6 animate-spin text-violet-600" />
+            <Loader2 className="w-6 h-6 animate-spin text-brand-600" />
           </div>
         )}
 

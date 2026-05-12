@@ -32,7 +32,7 @@ export function ResponsePanel({ tab }: Props) {
   if (_sending) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center gap-3">
-        <div className="w-10 h-10 rounded-full border-2 border-violet-600 border-t-transparent animate-spin" />
+        <div className="w-10 h-10 rounded-full border-2 border-brand-600 border-t-transparent animate-spin" />
         <p className="text-sm text-muted-foreground">Sending request…</p>
       </div>
     )
@@ -114,7 +114,7 @@ export function ResponsePanel({ tab }: Props) {
             )}
             {responseHeaders.map(([key, value]) => (
               <div key={key} className="flex items-start gap-3 py-1 border-b border-border/50 last:border-0">
-                <span className="text-xs font-mono font-medium text-violet-400 shrink-0">{key}</span>
+                <span className="text-xs font-mono font-medium text-brand-400 shrink-0">{key}</span>
                 <span className="text-xs font-mono text-muted-foreground break-all">{value}</span>
               </div>
             ))}
