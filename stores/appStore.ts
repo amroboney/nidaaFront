@@ -154,15 +154,15 @@ export const useAppStore = create<AppState>()(
             workspacesApi.list(),
             environmentsApi.list(),
           ])
-          const workspaces = wsRes.data.data ?? wsRes.data
-          const environments = envRes.data.data ?? envRes.data
+          const workspaces = wsRes.data.data
+          const environments = envRes.data.data
           const activeWorkspaceId = get().activeWorkspaceId ?? workspaces[0]?.id ?? null
-          const activeEnvId = get().activeEnvId ?? environments.find((e) => e.is_active)?.id ?? null
+          const activeEnvId = get().activeEnvId ?? environments.find((e: Environment) => e.is_active)?.id ?? null
 
           let collections: Collection[] = []
           if (activeWorkspaceId) {
             const colRes = await collectionsApi.list(activeWorkspaceId)
-            collections = colRes.data.data ?? colRes.data
+            collections = colRes.data.data
           }
 
           set({ workspaces, collections, environments, activeWorkspaceId, activeEnvId, isInitializing: false })
@@ -176,7 +176,7 @@ export const useAppStore = create<AppState>()(
         set({ activeWorkspaceId: id, isInitializing: true })
         try {
           const { data } = await collectionsApi.list(id)
-          set({ collections: data.data ?? data, isInitializing: false })
+          set({ collections: data.data, isInitializing: false })
         } catch {
           set({ isInitializing: false })
           toast.error('Failed to load collections')
@@ -492,7 +492,7 @@ export const useAppStore = create<AppState>()(
             params,
             body: tab.body_type !== 'none' ? body : undefined,
             body_type: tab.body_type,
-            auth: tab.auth as Record<string, unknown>,
+            auth: tab.auth as unknown as Record<string, unknown>,
           })
           set((s) => ({
             tabs: s.tabs.map((t) =>
@@ -516,7 +516,7 @@ export const useAppStore = create<AppState>()(
       fetchHistory: async () => {
         try {
           const { data } = await historyApi.list()
-          set({ history: data.data ?? data })
+          set({ history: data.data })
         } catch {}
       },
     }),

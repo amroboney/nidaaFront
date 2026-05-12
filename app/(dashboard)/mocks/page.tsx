@@ -26,14 +26,14 @@ export default function MocksPage() {
   const [form, setForm] = useState({ name: '', base_path: '' })
 
   useEffect(() => {
-    mockServersApi.list().then(({ data }) => setServers(data.data ?? data)).catch(() => toast.error('Failed to load mock servers')).finally(() => setLoading(false))
+    mockServersApi.list().then(({ data }) => setServers(data.data)).catch(() => toast.error('Failed to load mock servers')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
       const { data } = await mockServersApi.create({ name: form.name, base_path: form.base_path, is_active: true, responses: [] })
-      setServers((s) => [...s, data.data ?? data])
+      setServers((s) => [...s, data.data])
       toast.success('Mock server created')
       setModalOpen(false)
       setForm({ name: '', base_path: '' })
@@ -45,7 +45,7 @@ export default function MocksPage() {
   const toggleActive = async (server: MockServer) => {
     try {
       const { data } = await mockServersApi.update(server.id, { is_active: !server.is_active })
-      setServers((s) => s.map((x) => (x.id === server.id ? (data.data ?? data) : x)))
+      setServers((s) => s.map((x) => (x.id === server.id ? data.data : x)))
     } catch {
       toast.error('Failed to update')
     }

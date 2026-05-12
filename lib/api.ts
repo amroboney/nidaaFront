@@ -45,7 +45,7 @@ export const authApi = {
 }
 
 export const workspacesApi = {
-  list: () => api.get<Workspace[]>('/workspaces'),
+  list: () => api.get<{ data: Workspace[] }>('/workspaces'),
   get: (id: number) => api.get<Workspace>(`/workspaces/${id}`),
   create: (data: { name: string }) => api.post<Workspace>('/workspaces', data),
   update: (id: number, data: { name: string }) => api.put<Workspace>(`/workspaces/${id}`, data),
@@ -56,7 +56,7 @@ export const workspacesApi = {
 
 export const collectionsApi = {
   list: (workspaceId?: number) =>
-    api.get<Collection[]>('/collections', { params: workspaceId ? { workspace_id: workspaceId } : undefined }),
+    api.get<{ data: Collection[] }>('/collections', { params: workspaceId ? { workspace_id: workspaceId } : undefined }),
   get: (id: number) => api.get<Collection>(`/collections/${id}`),
   create: (data: Partial<Collection>) => api.post<Collection>('/collections', data),
   update: (id: number, data: Partial<Collection>) => api.put<Collection>(`/collections/${id}`, data),
@@ -94,7 +94,7 @@ export const requestsApi = {
 }
 
 export const environmentsApi = {
-  list: () => api.get<Environment[]>('/environments'),
+  list: () => api.get<{ data: Environment[] }>('/environments'),
   create: (data: Partial<Environment>) => api.post<Environment>('/environments', data),
   update: (id: number, data: Partial<Environment>) => api.put<Environment>(`/environments/${id}`, data),
   delete: (id: number) => api.delete(`/environments/${id}`),
@@ -114,30 +114,30 @@ export const proxyApi = {
 }
 
 export const monitorsApi = {
-  list: () => api.get<Monitor[]>('/monitors'),
-  create: (data: Partial<Monitor>) => api.post<Monitor>('/monitors', data),
-  update: (id: number, data: Partial<Monitor>) => api.put<Monitor>(`/monitors/${id}`, data),
+  list: () => api.get<{ data: Monitor[] }>('/monitors'),
+  create: (data: Partial<Monitor>) => api.post<{ data: Monitor }>('/monitors', data),
+  update: (id: number, data: Partial<Monitor>) => api.put<{ data: Monitor }>(`/monitors/${id}`, data),
   delete: (id: number) => api.delete(`/monitors/${id}`),
   run: (id: number) => api.post(`/monitors/${id}/run`),
   results: (id: number) => api.get(`/monitors/${id}/results`),
 }
 
 export const mockServersApi = {
-  list: () => api.get<MockServer[]>('/mock-servers'),
-  create: (data: Partial<MockServer>) => api.post<MockServer>('/mock-servers', data),
-  update: (id: number, data: Partial<MockServer>) => api.put<MockServer>(`/mock-servers/${id}`, data),
+  list: () => api.get<{ data: MockServer[] }>('/mock-servers'),
+  create: (data: Partial<MockServer>) => api.post<{ data: MockServer }>('/mock-servers', data),
+  update: (id: number, data: Partial<MockServer>) => api.put<{ data: MockServer }>(`/mock-servers/${id}`, data),
   delete: (id: number) => api.delete(`/mock-servers/${id}`),
 }
 
 export const groupsApi = {
-  list: () => api.get<Group[]>('/groups'),
+  list: () => api.get<{ data: Group[] }>('/groups'),
   get: (id: number) => api.get<Group>(`/groups/${id}`),
   create: (data: { name: string }) => api.post<Group>('/groups', data),
   addUser: (groupId: number, data: { email: string }) => api.post(`/groups/${groupId}/users`, data),
 }
 
 export const historyApi = {
-  list: () => api.get<RequestHistory[]>('/history'),
+  list: () => api.get<{ data: RequestHistory[] }>('/history'),
 }
 
 export default api

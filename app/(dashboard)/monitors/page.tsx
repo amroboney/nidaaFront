@@ -38,7 +38,7 @@ export default function MonitorsPage() {
   const [form, setForm] = useState({ name: '', collection_id: '', schedule: SCHEDULES[2].value })
 
   useEffect(() => {
-    monitorsApi.list().then(({ data }) => setMonitors(data.data ?? data)).catch(() => toast.error('Failed to load monitors')).finally(() => setLoading(false))
+    monitorsApi.list().then(({ data }) => setMonitors(data.data)).catch(() => toast.error('Failed to load monitors')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
@@ -50,7 +50,7 @@ export default function MonitorsPage() {
         schedule: form.schedule,
         is_active: true,
       })
-      setMonitors((m) => [...m, data.data ?? data])
+      setMonitors((m) => [...m, data.data])
       toast.success('Monitor created')
       setModalOpen(false)
       setForm({ name: '', collection_id: '', schedule: SCHEDULES[2].value })
@@ -65,7 +65,7 @@ export default function MonitorsPage() {
       await monitorsApi.run(id)
       toast.success('Monitor triggered')
       const { data } = await monitorsApi.list()
-      setMonitors(data.data ?? data)
+      setMonitors(data.data)
     } catch {
       toast.error('Failed to run monitor')
     } finally {

@@ -20,7 +20,7 @@ export default function GroupsPage() {
   const [userEmail, setUserEmail] = useState('')
 
   useEffect(() => {
-    groupsApi.list().then(({ data }) => setGroups(data)).catch(() => toast.error('Failed to load groups')).finally(() => setLoading(false))
+    groupsApi.list().then(({ data }) => setGroups(data.data)).catch(() => toast.error('Failed to load groups')).finally(() => setLoading(false))
   }, [])
 
   const handleCreate = async (e: React.FormEvent) => {
