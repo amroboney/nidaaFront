@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 98%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 263 70% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 94%;
+    --secondary-foreground: 240 5% 20%;
+    --muted: 240 5% 94%;
+    --muted-foreground: 240 5% 45%;
+    --accent: 240 5% 90%;
+    --accent-foreground: 240 5% 20%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 5% 88%;
+    --input: 240 5% 88%;
+    --ring: 263 70% 57%;
+    --radius: 0.5rem;
+    --sidebar: 240 5% 96%;
+    --sidebar-foreground: 240 10% 20%;
+    --sidebar-border: 240 5% 88%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 95%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 263 70% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 14%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 240 5% 14%;
+    --muted-foreground: 240 5% 60%;
+    --accent: 240 5% 18%;
+    --accent-foreground: 0 0% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 5% 16%;
+    --input: 240 5% 16%;
+    --ring: 263 70% 57%;
+    --radius: 0.5rem;
+    --sidebar: 240 10% 5%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-border: 240 5% 14%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-600;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* CodeMirror overrides */
+.cm-editor {
+  @apply text-sm font-mono;
+  height: 100%;
+}
+.cm-editor.cm-focused {
+  outline: none;
+}
+.cm-scroller {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 13px;
+}
+
+/* Resizable panels */
+[data-panel-group-direction="horizontal"] > [data-panel-resize-handle-id] {
+  @apply w-px bg-border hover:bg-violet-600/50 transition-colors cursor-col-resize;
+}
+[data-panel-group-direction="vertical"] > [data-panel-resize-handle-id] {
+  @apply h-px bg-border hover:bg-violet-600/50 transition-colors cursor-row-resize;
+}
