@@ -7,6 +7,42 @@ import { User, Mail, Lock, Loader2 } from 'lucide-react'
 import { useAuthStore } from '@/stores/authStore'
 import { AppLogo } from '@/components/ui/AppLogo'
 
+function Field({
+  icon: Icon,
+  label,
+  type,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+}: {
+  icon: React.ElementType
+  label: string
+  type: string
+  value: string
+  onChange: (v: string) => void
+  placeholder: string
+  autoComplete?: string
+}) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium text-foreground">{label}</label>
+      <div className="relative">
+        <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <input
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          required
+          className="w-full bg-secondary border border-border rounded-lg pl-9 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition"
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function RegisterPage() {
   const router = useRouter()
   const register = useAuthStore((s) => s.register)
@@ -33,40 +69,6 @@ export default function RegisterPage() {
       setLoading(false)
     }
   }
-
-  const Field = ({
-    icon: Icon,
-    label,
-    type,
-    value,
-    onChange,
-    placeholder,
-    autoComplete,
-  }: {
-    icon: React.ElementType
-    label: string
-    type: string
-    value: string
-    onChange: (v: string) => void
-    placeholder: string
-    autoComplete?: string
-  }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-medium text-foreground">{label}</label>
-      <div className="relative">
-        <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          required
-          className="w-full bg-secondary border border-border rounded-lg pl-9 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition"
-        />
-      </div>
-    </div>
-  )
 
   return (
     <div className="bg-card border border-border rounded-2xl p-8 shadow-2xl">
