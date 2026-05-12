@@ -24,7 +24,7 @@ export function ResponsePanel({ tab }: Props) {
 
   const copy = async () => {
     if (!res?.body) return
-    await navigator.clipboard.writeText(res.body)
+    await navigator.clipboard.writeText(typeof res.body === 'string' ? res.body : JSON.stringify(res.body))
     setCopied(true)
     setTimeout(() => setCopied(false), 1500)
   }
@@ -58,8 +58,9 @@ export function ResponsePanel({ tab }: Props) {
     )
   }
 
-  const prettyBody = tryPrettyJson(res.body)
-  const bodyIsJson = isJson(res.body)
+  const rawBody = typeof res.body === 'string' ? res.body : JSON.stringify(res.body)
+  const prettyBody = tryPrettyJson(rawBody)
+  const bodyIsJson = isJson(rawBody)
   const responseHeaders = Object.entries(res.headers ?? {})
 
   return (
@@ -123,7 +124,7 @@ export function ResponsePanel({ tab }: Props) {
 
         {activeTab === 'Preview' && (
           <iframe
-            srcDoc={res.body}
+            srcDoc={rawBody}
             className="w-full h-full border-0 bg-white"
             sandbox="allow-scripts"
             title="Response preview"
