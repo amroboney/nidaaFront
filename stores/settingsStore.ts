@@ -31,63 +31,37 @@ interface SettingsState {
   setLogoUrl: (v: string | null) => void
 }
 
-// Storage that namespaces by user ID so each user gets isolated settings
-const userScopedStorage = createJSONStorage(() => ({
-  getItem: (name: string) => {
-    if (typeof window === 'undefined') return null
-    const userId = (() => {
-      try {
-        const raw = localStorage.getItem('auth-store')
-        if (!raw) return 'guest'
-        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
-        return String(parsed?.state?.user?.id ?? 'guest')
-      } catch { return 'guest' }
-    })()
-    return localStorage.getItem(`${name}-${userId}`)
-  },
-  setItem: (name: string, value: string) => {
-    if (typeof window === 'undefined') return
-    const userId = (() => {
-      try {
-        const raw = localStorage.getItem('auth-store')
-        if (!raw) return 'guest'
-        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
-        return String(parsed?.state?.user?.id ?? 'guest')
-      } catch { return 'guest' }
-    })()
-    localStorage.setItem(`${name}-${userId}`, value)
-  },
-  removeItem: (name: string) => {
-    if (typeof window === 'undefined') return
-    const userId = (() => {
-      try {
-        const raw = localStorage.getItem('auth-store')
-        if (!raw) return 'guest'
-        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
-        return String(parsed?.state?.user?.id ?? 'guest')
-      } catch { return 'guest' }
-    })()
-    localStorage.removeItem(`${name}-${userId}`)
-  },
-}))
-
-const defaults = {
-  requestTimeout: 30000,
-  followRedirects: true,
-  sslVerification: true,
-  defaultContentType: 'application/json',
-  tabSize: 2 as const,
-  wordWrap: false,
-  fontSize: 13,
-  monitorAlerts: true,
-  requestLayout: 'vertical' as const,
-  logoUrl: null,
+function getUserId(): string {
+  try {
+    const raw = localStorage.getItem('auth-store')
+    if (!raw) return 'guest'
+    const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
+    return String(parsed?.state?.user?.id ?? 'guest')
+  } catch {
+    return 'guest'
+  }
 }
+
+// Per-user namespaced storage — only runs client-side (skipHydration: true)
+const userScopedStorage = createJSONStorage(() => ({
+  getItem: (name: string) => localStorage.getItem(`${name}-${getUserId()}`),
+  setItem: (name: string, value: string) => localStorage.setItem(`${name}-${getUserId()}`, value),
+  removeItem: (name: string) => localStorage.removeItem(`${name}-${getUserId()}`),
+}))
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      ...defaults,
+      requestTimeout: 30000,
+      followRedirects: true,
+      sslVerification: true,
+      defaultContentType: 'application/json',
+      tabSize: 2,
+      wordWrap: false,
+      fontSize: 13,
+      monitorAlerts: true,
+      requestLayout: 'vertical',
+      logoUrl: null,
 
       setRequestTimeout: (v) => set({ requestTimeout: v }),
       setFollowRedirects: (v) => set({ followRedirects: v }),
@@ -100,11 +74,14 @@ export const useSettingsStore = create<SettingsState>()(
       setRequestLayout: (v) => set({ requestLayout: v }),
       setLogoUrl: (v) => set({ logoUrl: v }),
     }),
-    { name: 'nidaa-settings', storage: userScopedStorage }
+    {
+      name: 'nidaa-settings',
+      storage: userScopedStorage,
+      skipHydration: true, // prevents SSR/hydration mismatch — rehydrated manually on client
+    }
   )
 )
 
-// Call after login / logout so the store loads the correct user's settings
 export function rehydrateSettings() {
   useSettingsStore.persist.rehydrate()
 }

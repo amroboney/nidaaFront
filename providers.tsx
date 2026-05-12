@@ -1,13 +1,19 @@
 'use client'
 import { useEffect } from 'react'
 import { ThemeProvider } from 'next-themes'
-import { useSettingsStore } from '@/stores/settingsStore'
+import { useSettingsStore, rehydrateSettings } from '@/stores/settingsStore'
 
 function FontSizeSync() {
   const fontSize = useSettingsStore((s) => s.fontSize)
+
+  useEffect(() => {
+    rehydrateSettings()
+  }, [])
+
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`
   }, [fontSize])
+
   return null
 }
 
