@@ -1,22 +1,16 @@
 'use client'
 import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface SettingsState {
-  // Requests
   requestTimeout: number
   followRedirects: boolean
   sslVerification: boolean
   defaultContentType: string
-  // Editor
   tabSize: 2 | 4
   wordWrap: boolean
   fontSize: number
-  // Notifications
   monitorAlerts: boolean
-  // Layout
   requestLayout: 'vertical' | 'horizontal'
-  // Branding
   logoUrl: string | null
 
   setRequestTimeout: (v: number) => void
@@ -31,6 +25,24 @@ interface SettingsState {
   setLogoUrl: (v: string | null) => void
 }
 
+type SettingsData = Pick<SettingsState,
+  'requestTimeout' | 'followRedirects' | 'sslVerification' | 'defaultContentType' |
+  'tabSize' | 'wordWrap' | 'fontSize' | 'monitorAlerts' | 'requestLayout' | 'logoUrl'
+>
+
+const defaults: SettingsData = {
+  requestTimeout: 30000,
+  followRedirects: true,
+  sslVerification: true,
+  defaultContentType: 'application/json',
+  tabSize: 2,
+  wordWrap: false,
+  fontSize: 13,
+  monitorAlerts: true,
+  requestLayout: 'vertical',
+  logoUrl: null,
+}
+
 function getUserId(): string {
   try {
     const raw = localStorage.getItem('auth-store')
@@ -42,46 +54,55 @@ function getUserId(): string {
   }
 }
 
-// Per-user namespaced storage — only runs client-side (skipHydration: true)
-const userScopedStorage = createJSONStorage(() => ({
-  getItem: (name: string) => localStorage.getItem(`${name}-${getUserId()}`),
-  setItem: (name: string, value: string) => localStorage.setItem(`${name}-${getUserId()}`, value),
-  removeItem: (name: string) => localStorage.removeItem(`${name}-${getUserId()}`),
+function storageKey(): string {
+  return `nidaa-settings-${getUserId()}`
+}
+
+function saveToStorage(state: SettingsState) {
+  try {
+    const data: SettingsData = {
+      requestTimeout: state.requestTimeout,
+      followRedirects: state.followRedirects,
+      sslVerification: state.sslVerification,
+      defaultContentType: state.defaultContentType,
+      tabSize: state.tabSize,
+      wordWrap: state.wordWrap,
+      fontSize: state.fontSize,
+      monitorAlerts: state.monitorAlerts,
+      requestLayout: state.requestLayout,
+      logoUrl: state.logoUrl,
+    }
+    localStorage.setItem(storageKey(), JSON.stringify(data))
+  } catch {}
+}
+
+export const useSettingsStore = create<SettingsState>()((set) => ({
+  ...defaults,
+  setRequestTimeout: (v) => set({ requestTimeout: v }),
+  setFollowRedirects: (v) => set({ followRedirects: v }),
+  setSslVerification: (v) => set({ sslVerification: v }),
+  setDefaultContentType: (v) => set({ defaultContentType: v }),
+  setTabSize: (v) => set({ tabSize: v }),
+  setWordWrap: (v) => set({ wordWrap: v }),
+  setFontSize: (v) => set({ fontSize: v }),
+  setMonitorAlerts: (v) => set({ monitorAlerts: v }),
+  setRequestLayout: (v) => set({ requestLayout: v }),
+  setLogoUrl: (v) => set({ logoUrl: v }),
 }))
 
-export const useSettingsStore = create<SettingsState>()(
-  persist(
-    (set) => ({
-      requestTimeout: 30000,
-      followRedirects: true,
-      sslVerification: true,
-      defaultContentType: 'application/json',
-      tabSize: 2,
-      wordWrap: false,
-      fontSize: 13,
-      monitorAlerts: true,
-      requestLayout: 'vertical',
-      logoUrl: null,
+// Auto-save on every change (client-only)
+if (typeof window !== 'undefined') {
+  useSettingsStore.subscribe((state) => saveToStorage(state))
+}
 
-      setRequestTimeout: (v) => set({ requestTimeout: v }),
-      setFollowRedirects: (v) => set({ followRedirects: v }),
-      setSslVerification: (v) => set({ sslVerification: v }),
-      setDefaultContentType: (v) => set({ defaultContentType: v }),
-      setTabSize: (v) => set({ tabSize: v }),
-      setWordWrap: (v) => set({ wordWrap: v }),
-      setFontSize: (v) => set({ fontSize: v }),
-      setMonitorAlerts: (v) => set({ monitorAlerts: v }),
-      setRequestLayout: (v) => set({ requestLayout: v }),
-      setLogoUrl: (v) => set({ logoUrl: v }),
-    }),
-    {
-      name: 'nidaa-settings',
-      storage: userScopedStorage,
-      skipHydration: true, // prevents SSR/hydration mismatch — rehydrated manually on client
-    }
-  )
-)
-
+// Load settings for current user from localStorage
 export function rehydrateSettings() {
-  useSettingsStore.persist.rehydrate()
+  if (typeof window === 'undefined') return
+  try {
+    const stored = localStorage.getItem(storageKey())
+    const parsed: Partial<SettingsData> = stored ? JSON.parse(stored) : {}
+    useSettingsStore.setState({ ...defaults, ...parsed })
+  } catch {
+    useSettingsStore.setState(defaults)
+  }
 }
