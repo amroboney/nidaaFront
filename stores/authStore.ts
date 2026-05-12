@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { authApi } from '@/lib/api'
 import type { User } from '@/lib/types'
+import { rehydrateSettings } from './settingsStore'
 
 interface AuthState {
   user: User | null
@@ -28,6 +29,7 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await authApi.login(email, password)
           localStorage.setItem('auth_token', data.access_token)
           set({ token: data.access_token, user: data.user, isLoading: false })
+          rehydrateSettings()
         } catch (err) {
           set({ isLoading: false })
           throw err
@@ -40,6 +42,7 @@ export const useAuthStore = create<AuthState>()(
           const { data } = await authApi.register(name, email, password, confirm)
           localStorage.setItem('auth_token', data.access_token)
           set({ token: data.access_token, user: data.user, isLoading: false })
+          rehydrateSettings()
         } catch (err) {
           set({ isLoading: false })
           throw err
@@ -57,6 +60,7 @@ export const useAuthStore = create<AuthState>()(
         } catch {}
         localStorage.removeItem('auth_token')
         set({ user: null, token: null })
+        rehydrateSettings()
       },
 
       fetchUser: async () => {

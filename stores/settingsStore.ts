@@ -1,6 +1,6 @@
 'use client'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 interface SettingsState {
   // Requests
@@ -31,19 +31,63 @@ interface SettingsState {
   setLogoUrl: (v: string | null) => void
 }
 
+// Storage that namespaces by user ID so each user gets isolated settings
+const userScopedStorage = createJSONStorage(() => ({
+  getItem: (name: string) => {
+    if (typeof window === 'undefined') return null
+    const userId = (() => {
+      try {
+        const raw = localStorage.getItem('auth-store')
+        if (!raw) return 'guest'
+        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
+        return String(parsed?.state?.user?.id ?? 'guest')
+      } catch { return 'guest' }
+    })()
+    return localStorage.getItem(`${name}-${userId}`)
+  },
+  setItem: (name: string, value: string) => {
+    if (typeof window === 'undefined') return
+    const userId = (() => {
+      try {
+        const raw = localStorage.getItem('auth-store')
+        if (!raw) return 'guest'
+        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
+        return String(parsed?.state?.user?.id ?? 'guest')
+      } catch { return 'guest' }
+    })()
+    localStorage.setItem(`${name}-${userId}`, value)
+  },
+  removeItem: (name: string) => {
+    if (typeof window === 'undefined') return
+    const userId = (() => {
+      try {
+        const raw = localStorage.getItem('auth-store')
+        if (!raw) return 'guest'
+        const parsed = JSON.parse(raw) as { state?: { user?: { id?: number } } }
+        return String(parsed?.state?.user?.id ?? 'guest')
+      } catch { return 'guest' }
+    })()
+    localStorage.removeItem(`${name}-${userId}`)
+  },
+}))
+
+const defaults = {
+  requestTimeout: 30000,
+  followRedirects: true,
+  sslVerification: true,
+  defaultContentType: 'application/json',
+  tabSize: 2 as const,
+  wordWrap: false,
+  fontSize: 13,
+  monitorAlerts: true,
+  requestLayout: 'vertical' as const,
+  logoUrl: null,
+}
+
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      requestTimeout: 30000,
-      followRedirects: true,
-      sslVerification: true,
-      defaultContentType: 'application/json',
-      tabSize: 2,
-      wordWrap: false,
-      fontSize: 13,
-      monitorAlerts: true,
-      requestLayout: 'vertical',
-      logoUrl: null,
+      ...defaults,
 
       setRequestTimeout: (v) => set({ requestTimeout: v }),
       setFollowRedirects: (v) => set({ followRedirects: v }),
@@ -56,6 +100,11 @@ export const useSettingsStore = create<SettingsState>()(
       setRequestLayout: (v) => set({ requestLayout: v }),
       setLogoUrl: (v) => set({ logoUrl: v }),
     }),
-    { name: 'nidaa-settings' }
+    { name: 'nidaa-settings', storage: userScopedStorage }
   )
 )
+
+// Call after login / logout so the store loads the correct user's settings
+export function rehydrateSettings() {
+  useSettingsStore.persist.rehydrate()
+}
